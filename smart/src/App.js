@@ -15,7 +15,7 @@ export default function App() {
       <Route path="/device-control" element={<DeviceControl />} />
       <Route path="/logs" element={<Logs />} />
       {/* <Route path="/settings" element={<Settings />} /> */}
-      {/* Add more routes like /automation, /notification etc. */}
+      Add more routes like /automation, /notification etc.
       </Route>
     </Routes>
    
