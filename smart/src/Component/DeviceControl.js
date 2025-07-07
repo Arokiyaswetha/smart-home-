@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/deviceControl.css';
-import { ChevronLeft, Lightbulb, Thermometer, Lock } from 'lucide-react';
+import { ChevronLeft, Lightbulb, Thermometer, SlidersHorizontal, Zap } from 'lucide-react';
+import AdjustDevices from './AdjustDevice';
+import EnergySaver from './EnergySaver';
 
 export default function DeviceControl() {
+  const [activeTab, setActiveTab] = useState('devices');
+  const navigate = useNavigate();
+
   const devices = [
     {
       icon: <Lightbulb color="#3f0071" size={24} />,
@@ -20,14 +26,6 @@ export default function DeviceControl() {
       type: 'Thermostat',
       action: 'Adjust',
     },
-    {
-      icon: <Lock color="#3f0071" size={24} />,
-      name: 'Front Door Lock',
-      status: 'Locked',
-      room: 'Entrance',
-      type: 'Lock',
-      action: 'Unlock',
-    },
   ];
 
   return (
@@ -36,51 +34,47 @@ export default function DeviceControl() {
       <div className="device-header">
         <div className="breadcrumb">
           <ChevronLeft size={16} />
-          <span>Dashboard</span>
+          <span className="dashboard-link" onClick={() => navigate('/')}>Dashboard</span>
           <span>{'>'}</span>
           <span className="active">Device Control</span>
-        </div>
-        <div className="user-info">
-          <span>Alex Morgan</span>
-          <img
-            src="https://randomuser.me/api/portraits/men/32.jpg"
-            alt="User"
-            className="user-avatar"
-          />
         </div>
       </div>
 
       {/* Tabs */}
       <div className="tabs">
-        <button className="active">Devices</button>
-        <button>Adjust devices</button>
-        <button>Energy Saver</button>
+        <button className={activeTab === 'devices' ? 'active' : ''} onClick={() => setActiveTab('devices')}>Devices</button>
+        <button className={activeTab === 'adjust' ? 'active' : ''} onClick={() => setActiveTab('adjust')}>Adjust Device</button>
+        <button className={activeTab === 'energy' ? 'active' : ''} onClick={() => setActiveTab('energy')}>Energy Saver</button>
       </div>
 
-      <p>Manage and control your connected devices.</p>
-
-      {/* Device Cards */}
-      <div className="device-grid">
-        {devices.map((device, idx) => (
-          <div key={idx} className="device-card">
-            <div>{device.icon}</div>
-            <h4>{device.name}</h4>
-            <p>Status: {device.status}</p>
-            <p>Room: {device.room}</p>
-            <p>Type: {device.type}</p>
-            <div className="buttons">
-              <button className="action-btn">{device.action}</button>
-              <button className="settings-btn">Settings</button>
-            </div>
+      {/* Devices */}
+      {activeTab === 'devices' && (
+        <>
+          <div className="device-grid">
+            {devices.map((device, idx) => (
+              <div key={idx} className="device-card">
+                <div>{device.icon}</div>
+                <h4>{device.name}</h4>
+                <p>Status: {device.status}</p>
+                <p>Room: {device.room}</p>
+                <p>Type: {device.type}</p>
+                <div className="buttons">
+                  <button className="action-btn">{device.action}</button>
+                  <button className="settings-btn">Settings</button>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* Add New Device */}
-      <div className="add-section">
-        <h3>Add New Device</h3>
-        <button>Add device</button>
-      </div>
+          <div className="add-section">
+            <h3>Add New Device</h3>
+            <button>Add device</button>
+          </div>
+        </>
+      )}
+
+      {activeTab === 'adjust' && <AdjustDevices />}
+      {activeTab === 'energy' && <EnergySaver />}
     </div>
   );
-}
+} 

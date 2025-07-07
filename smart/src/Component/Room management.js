@@ -1,5 +1,7 @@
 import React from 'react';
-import { BedDouble, ShowerHead, Plug, Lamp, Sofa } from 'lucide-react';
+import { BedDouble, ShowerHead, Plug, Lamp, Sofa, ChevronLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import '../css/room.css';
 
 const rooms = [
   { name: 'Living Room', devices: 5, icon: <Sofa /> },
@@ -14,46 +16,42 @@ const unassignedDevices = [
 ];
 
 export default function RoomManagement() {
+  const navigate = useNavigate();
+
   return (
-    <div className="flex-1 bg-white p-8">
-      {/* Breadcrumb */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="text-sm text-gray-600 flex gap-1">
-          <span>Dashboard</span>
-          <span>{'>'}</span>
-          <span className="font-semibold text-black">Room Management</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="font-medium">Alex Morgan</span>
-          <img
-            src="https://randomuser.me/api/portraits/men/32.jpg"
-            alt="User"
-            className="w-10 h-10 rounded-full"
-          />
+    <div className="room-container">
+      {/* Breadcrumb Header */}
+      <div className="room-header">
+        <div className="breadcrumb">
+          <span className="breadcrumb-link" onClick={() => navigate('/')}>
+            <ChevronLeft size={16} style={{ marginRight: '4px' }} />
+            Dashboard
+          </span>
+          <span> &gt; </span>
+          <span className="breadcrumb-active">Room Management</span>
         </div>
       </div>
 
-      {/* Header */}
-      <h2 className="text-xl font-bold mb-2">Organize Devices</h2>
-      <p className="text-sm text-gray-600 mb-6">
+      <h2 className="room-header">Organize Devices</h2>
+      <p className="room-subheader">
         Group and manage devices by room or zone for easier control
       </p>
 
       {/* Add Room Button */}
-      <button className="bg-purple-600 text-white px-4 py-2 rounded-md mb-6 hover:bg-purple-700 transition">
+      <button
+        className="room-add-button"
+        onClick={() => navigate('/room-management/add')}
+      >
         Add Room
       </button>
 
       {/* Room Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div className="room-grid">
         {rooms.map((room, index) => (
-          <div
-            key={index}
-            className="bg-purple-100 text-purple-900 p-4 rounded-xl shadow-md hover:shadow-lg transition"
-          >
-            <div className="text-2xl mb-2">{room.icon}</div>
-            <h4 className="font-semibold text-md">{room.name}</h4>
-            <p className="text-sm text-gray-700">
+          <div key={index} className="room-card">
+            <div className="room-card-icon">{room.icon}</div>
+            <h4 className="room-card-title">{room.name}</h4>
+            <p className="room-card-subtext">
               {room.devices} device{room.devices > 1 ? 's' : ''} assigned
             </p>
           </div>
@@ -61,19 +59,16 @@ export default function RoomManagement() {
       </div>
 
       {/* Unassigned Devices */}
-      <h3 className="text-lg font-bold mb-4">Unassigned Devices</h3>
-      <div className="bg-gray-50 rounded-lg overflow-hidden shadow-sm">
+      <h3 className="unassigned-section-title">Unassigned Devices</h3>
+      <div className="unassigned-container">
         {unassignedDevices.map((device, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-between px-4 py-3 border-b last:border-none"
-          >
-            <div className="flex items-center gap-3">
-              <div className="text-lg text-gray-700">{device.icon}</div>
-              <span className="font-medium">{device.name}</span>
+          <div key={index} className="unassigned-row">
+            <div className="unassigned-info">
+              <div>{device.icon}</div>
+              <span>{device.name}</span>
             </div>
-            <div className="text-sm text-gray-600">Not assigned</div>
-            <div className="text-sm text-green-600">{device.status}</div>
+            <div className="unassigned-status">Not assigned</div>
+            <div className="unassigned-online">{device.status}</div>
           </div>
         ))}
       </div>

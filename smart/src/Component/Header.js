@@ -1,26 +1,25 @@
 // src/components/Header.jsx
 import React from 'react';
+import smart from '../images/image.png'; // Replace with your actual logo path
+import '../css/header.css';
+
 
 export default function Header() {
   return (
-  
-       <div className="header">
-          <div>
-            <div className="welcome">
-              <h2>Welcome back</h2>
-              <p>Your smart home overview</p>
-            </div>
-          </div>
-          <div className="user-profile">
-            <span className="user-name">Alex Morgan</span>
-            <img
-              src="https://randomuser.me/api/portraits/men/32.jpg"
-              alt="User"
-              style={{ width: 40, height: 40, borderRadius: '50%', marginLeft: '10px' }}
-            />
-          </div>
-        </div>
+    <header className="dashboard-header">
+      <div className="logo-section">
+        <img src={smart} alt="Smart Aura Logo" className="logo" />
+        <h1 className="brand">SMART AURA</h1>
+      </div>
 
-   
+      <div className="user-profile">
+        <span className="user-name">Alex Morgan</span>
+        <img
+         src="https://randomuser.me/api/portraits/men/32.jpg"
+          alt="Profile"
+          className="avatar"
+        />
+      </div>
+    </header>
   );
 }

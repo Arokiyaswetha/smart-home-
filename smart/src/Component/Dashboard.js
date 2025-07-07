@@ -29,7 +29,10 @@ export default function Dashboard() {
       </aside> */}
 
       {/* Main content */}
-    
+    <div className="dashboard-body">
+          <h2>Dashboard</h2>
+          <h3 className="welcome italic">Welcome back</h3>
+          <p className="subtitle">Your smart home overview</p>
        
         {/* Overview Cards */}
         <div className="overview">
@@ -48,6 +51,7 @@ export default function Dashboard() {
               <ActivityRow device="Living Room Lights" status="Turned off" time="10 min ago" />
             </tbody>
           </table>
+        </div>
         </div>
    </>
   );

@@ -1,83 +1,93 @@
-let automationRules = [
+import React, { useState } from 'react';
+import '../css/scenerio.css'; // Make sure the CSS file name matches
+
+const rules = [
   {
-    type: "Rule",
-    title: "Turn off Lights",
-    description: "When no motion is detected for 10 min in Living Room, turn off all lights."
+    type: 'Rule',
+    name: 'Turn off Lights',
+    description: 'When no motion is detected for 10 min in Living Room, turn off all lights.',
   },
   {
-    type: "Schedule",
-    title: "AC On at 7PM",
-    description: "Turn on AC in Bedroom every day at 7.00 PM."
+    type: 'Schedule',
+    name: 'AC On at 7PM',
+    description: 'Turn on AC in Bedroom every day at 7.00 PM.',
   },
   {
-    type: "Voice Command",
-    title: "Good Night Routine",
-    description: "When ‘Good night’ is said, turn off all lights and lock doors."
-  }
+    type: 'Voice Command',
+    name: 'Good Night Routine',
+    description: 'When ‘Good night’ is said, turn off all lights and lock doors.',
+  },
 ];
 
-function renderAutomationList() {
-  const container = document.getElementById("automationContainer");
-  container.innerHTML = ""; // Clear existing content
-
-  automationRules.forEach((rule, index) => {
-    const div = document.createElement("div");
-    div.className = "automation-rule";
-    div.style = "border: 1px solid #ddd; margin: 10px; padding: 10px; border-radius: 10px; background-color: #f3e6f6;";
-
-    div.innerHTML = `
-      <h4 style="color: purple">${rule.type}</h4>
-      <strong>${rule.title}</strong>
-      <p>${rule.description}</p>
-      <button onclick="editRule(${index})">Edit</button>
-      <button onclick="disableRule(${index})">Disable</button>
-    `;
-    container.appendChild(div);
-  });
-}
-
-function saveRule() {
-  const name = document.getElementById("ruleName").value;
-  const trigger = document.getElementById("trigger").value;
-  const action = document.getElementById("action").value;
-
-  if (!name || !trigger || !action) {
-    alert("Please fill in all fields.");
-    return;
-  }
-
-  automationRules.push({
-    type: "Custom",
-    title: name,
-    description: `Trigger: ${trigger}, Action: ${action}`
+const Scenerio = () => {
+  const [newRule, setNewRule] = useState({
+    name: '',
+    trigger: '',
+    action: '',
   });
 
-  renderAutomationList();
-  clearInputs();
-}
+  return (
+    <div className="automation-container">
+      {/* <div className="automation-breadcrumb">
+        Dashboard &gt; Automation &gt; <span>Automation scenarios</span>
+      </div> */}
+      <h2 className="automation-title">Automation Scenarios</h2>
 
-function createRule() {
-  alert("Rule has been created.");
-  // Add logic to send rule to server if needed
-}
+      <div className="automation-tabs-header">
+        <button className="tab-button active">All Rules</button>
+        <button className="tab-button">Device schedule</button>
+      </div>
 
-function editRule(index) {
-  const rule = automationRules[index];
-  document.getElementById("ruleName").value = rule.title;
-  document.getElementById("trigger").value = "Edit the trigger";
-  document.getElementById("action").value = "Edit the action";
-}
+      <div className="automation-scenario-list">
+        {rules.map((rule, idx) => (
+          <div key={idx} className="automation-scenario-card purple-card">
+            <h4 className={`rule-type ${rule.type.toLowerCase().replace(' ', '-')}`}>{rule.type}</h4>
+            <h3 className="rule-name">{rule.name}</h3>
+            <p className="rule-description">{rule.description}</p>
+            <div className="rule-actions">
+              <button className="edit-btn purple-btn">Edit</button>
+              <button className="disable-btn purple-btn">Disable</button>
+            </div>
+          </div>
+        ))}
+      </div>
 
-function disableRule(index) {
-  automationRules.splice(index, 1);
-  renderAutomationList();
-}
+      <div className="automation-form purple-form">
+        <h3>Add New Automation</h3>
+        <div className="form-row">
+          <label>Rule Name</label>
+          <input
+            type="text"
+            placeholder="Enter rule name"
+            value={newRule.name}
+            onChange={(e) => setNewRule({ ...newRule, name: e.target.value })}
+          />
+        </div>
+        <div className="form-row">
+          <label>Trigger</label>
+          <input
+            type="text"
+            placeholder="e.g, No motion, 7:00 PM ,voice"
+            value={newRule.trigger}
+            onChange={(e) => setNewRule({ ...newRule, trigger: e.target.value })}
+          />
+        </div>
+        <div className="form-row">
+          <label>Action</label>
+          <input
+            type="text"
+            placeholder="e.g, Turn off lights"
+            value={newRule.action}
+            onChange={(e) => setNewRule({ ...newRule, action: e.target.value })}
+          />
+        </div>
+        <div className="form-actions">
+          <button className="save-btn purple-btn">Save</button>
+          <button className="create-btn purple-btn">Create Rule</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-function clearInputs() {
-  document.getElementById("ruleName").value = "";
-  document.getElementById("trigger").value = "";
-  document.getElementById("action").value = "";
-}
-
-// Initialize list
-window.onload = renderAutomationList;
+export default Scenerio;

@@ -1,8 +1,16 @@
 import React from 'react';
-import { ChevronLeft, Tv2, Fridge, Lightbulb } from 'lucide-react';
+import { ChevronLeft, Tv2, Lightbulb, Package } from 'lucide-react';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
 } from 'recharts';
+
+import '../css/energysaver.css';
 
 const EnergySaver = () => {
   const activeDevices = [
@@ -12,7 +20,7 @@ const EnergySaver = () => {
       type: 'Light',
       setting: 'Auto',
       usage: '60W',
-      icon: <Lightbulb className="text-blue-600" />,
+      icon: <Lightbulb className="icon blue-light" />,
     },
     {
       name: 'Kitchen Fridge',
@@ -20,7 +28,7 @@ const EnergySaver = () => {
       type: 'Fridge',
       setting: 'Auto',
       usage: '100W',
-      icon: <Fridge className="text-blue-500" />,
+      icon: <Package className="icon blue-fridge" />,
     },
     {
       name: 'Family Room TV',
@@ -28,7 +36,7 @@ const EnergySaver = () => {
       type: 'TV',
       setting: 'Manual',
       usage: '45W',
-      icon: <Tv2 className="text-blue-400" />,
+      icon: <Tv2 className="icon blue-tv" />,
     },
   ];
 
@@ -48,48 +56,31 @@ const EnergySaver = () => {
   ];
 
   return (
-    <div className="flex-1 bg-white p-8">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center text-sm gap-1 text-gray-500">
-          <ChevronLeft className="w-4 h-4" />
-          <span>Dashboard</span>
-          <span>{'>'}</span>
-          <span>Device control</span>
-          <span>{'>'}</span>
-          <span className="font-semibold text-black">Energy Saver</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="font-medium">Alex Morgan</span>
-          <img
-            src="https://randomuser.me/api/portraits/men/32.jpg"
-            alt="User"
-            className="w-10 h-10 rounded-full"
-          />
-        </div>
-      </div>
-
+    <div className="page-container">
       {/* Active Devices Table */}
-      <h2 className="text-xl font-bold mb-3">Active Devices</h2>
-      <div className="overflow-x-auto mb-6">
-        <table className="min-w-full border border-gray-200 text-sm">
-          <thead className="bg-gray-100 text-left">
+      <h2 className="section-title">Active Devices</h2>
+      <div className="table-container">
+        <table className="device-table">
+          <thead>
             <tr>
-              <th className="px-4 py-2">Device</th>
-              <th className="px-4 py-2">Mode</th>
-              <th className="px-4 py-2">Type</th>
-              <th className="px-4 py-2">Setting</th>
-              <th className="px-4 py-2">Usage</th>
+              <th>Device</th>
+              <th>Mode</th>
+              <th>Type</th>
+              <th>Setting</th>
+              <th>Usage</th>
             </tr>
           </thead>
           <tbody>
             {activeDevices.map((device, index) => (
-              <tr key={index} className="border-t">
-                <td className="px-4 py-2 flex items-center gap-2">{device.icon}{device.name}</td>
-                <td className="px-4 py-2">{device.mode}</td>
-                <td className="px-4 py-2">{device.type}</td>
-                <td className="px-4 py-2">{device.setting}</td>
-                <td className="px-4 py-2">{device.usage}</td>
+              <tr key={index}>
+                <td className="device-info">
+                  {device.icon}
+                  {device.name}
+                </td>
+                <td>{device.mode}</td>
+                <td>{device.type}</td>
+                <td>{device.setting}</td>
+                <td>{device.usage}</td>
               </tr>
             ))}
           </tbody>
@@ -97,16 +88,16 @@ const EnergySaver = () => {
       </div>
 
       {/* Energy Saver Mode Info */}
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold">Energy Saver Mode</h3>
-        <p className="text-sm text-gray-600">
+      <div className="info-block">
+        <h3 className="section-subtitle">Energy Saver Mode</h3>
+        <p className="section-description">
           Energy Saver is now active. All compatible appliances are running in low-power mode.
         </p>
       </div>
 
       {/* Energy Usage Chart */}
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-3">Energy Usage</h3>
+      <div className="chart-container">
+        <h3 className="section-subtitle">Energy Usage</h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={energyData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -119,10 +110,9 @@ const EnergySaver = () => {
       </div>
 
       {/* Deactivate Button */}
-      <div className="mt-4">
-        <button className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700">
-          Deactivate
-        </button>
+      <div className="button-container">
+        <button className="deactivate-button">Deactivate</button>
+        
       </div>
     </div>
   );
