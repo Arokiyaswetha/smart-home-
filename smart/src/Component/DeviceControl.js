@@ -8,7 +8,11 @@ import EnergySaver from './EnergySaver';
 export default function DeviceControl() {
   const [activeTab, setActiveTab] = useState('devices');
   const navigate = useNavigate();
-
+  const tabLabelMap = {
+    devices: 'Devices',
+    adjust: 'Adjust Device',
+    energy: 'Energy Saver',
+  };
   // Initial device list with states
   const initialDevices = [
     {
@@ -49,7 +53,21 @@ export default function DeviceControl() {
           <ChevronLeft size={16} />
           <span className="dashboard-link" onClick={() => navigate('/')}>Dashboard</span>
           <span>{'>'}</span>
-          <span className="active">Device Control</span>
+          <span
+            className="dashboard-link"
+            onClick={() => setActiveTab('devices')}
+            style={{ cursor: 'pointer' }}
+          >
+            Device Control
+          </span>
+
+          {/* Active tab label */}
+          {activeTab && (
+            <>
+              <span>{'>'}</span>
+              <span className="active">{tabLabelMap[activeTab]}</span>
+            </>
+          )}
         </div>
       </div>
 
@@ -93,7 +111,6 @@ export default function DeviceControl() {
           <div className="add-section">
             <h3>Add New Device</h3>
             <button onClick={() => navigate('/add-device')}>Add device</button>
-            <button onClick={() => navigate('/')}>Back</button>
           </div>
 
 

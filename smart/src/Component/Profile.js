@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../css/profile.css';
+import { useNavigate } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('Profile');
@@ -8,6 +10,7 @@ const Profile = () => {
   const [name, setName] = useState('Alex Morgan');
   const [email, setEmail] = useState('alex.morgan@email.com');
   const [phone, setPhone] = useState('');
+  const navigate = useNavigate();
 
   // Voice Assistant State
   const [connectedVA, setConnectedVA] = useState({
@@ -237,13 +240,31 @@ const Profile = () => {
         return null;
     }
   };
-
+  const tabLabelMap = {
+    'Profile': 'Profile',
+    'Security': 'Security',
+    'Access Control': 'Access Control',
+    'Voice Assistant': 'Voice Assistant',
+    'Integration': 'Integration'
+  };
   return (
     <div className="profile-container">
+      <div className="device-header">
       <div className="breadcrumb">
-        <span>Dashboard</span> &gt; <span>Settings</span> &gt; <span className="active">Profile</span>
+      <ChevronLeft size={16} />
+        <span className="breadcrumb-link" onClick={() => navigate('/')}>Dashboard</span>
+        <span> &gt; </span>
+        <span className="breadcrumb-link" onClick={() => setActiveTab('Profile')} style={{ cursor: 'pointer' }}>Settings</span>
+        {activeTab && activeTab !== 'Profile' && (
+          <>
+            <span> &gt; </span>
+            <span className="active">{tabLabelMap[activeTab]}</span>
+          </>
+        )}
+        </div>
       </div>
 
+      {/* Tabs */}
       <div className="tabs">
         {['Profile', 'Security', 'Access Control', 'Voice Assistant', 'Integration'].map((tab) => (
           <button
@@ -256,8 +277,10 @@ const Profile = () => {
         ))}
       </div>
 
+      {/* Content */}
       {renderTabContent()}
     </div>
+    // </div>
   );
 };
 
