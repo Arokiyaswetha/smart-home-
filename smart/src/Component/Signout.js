@@ -10,7 +10,7 @@ const SignOutModal = ({ onClose }) => {
     // Clear storage or auth (example)
     localStorage.clear();
     // Redirect to login
-    navigate('/Home');
+    navigate('/home');
   };
 
   return (

@@ -19,7 +19,7 @@ import DeviceUsage from './Component/DeviceUsage';
 import Rule from './Component/Rule';
 import DeviceSchedules from './Component/DeviceSchedules';
 import Signout from './Component/Signout';
-import { Home } from 'lucide-react';
+import HomePage from './Component/Home';
 // ...add other pages here
 
 export default function App() {
@@ -44,7 +44,7 @@ export default function App() {
       <Route path="/create-rule" element={<Rule />} />
       <Route path="/device-schedules" element={<DeviceSchedules />} />
       <Route path="/signout" element={<Signout />} />
-      <Route path="/home" element={<Home />} />
+      <Route path="/home" element={<HomePage />} />
 
       Add more routes like /automation, /notification etc.
       </Route>

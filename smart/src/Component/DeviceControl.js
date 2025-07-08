@@ -93,7 +93,10 @@ export default function DeviceControl() {
           <div className="add-section">
             <h3>Add New Device</h3>
             <button onClick={() => navigate('/add-device')}>Add device</button>
+            <button onClick={() => navigate('/')}>Back</button>
           </div>
+
+
         </>
       )}
 
