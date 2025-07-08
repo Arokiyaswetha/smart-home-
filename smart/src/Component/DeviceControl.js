@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/deviceControl.css';
-import { ChevronLeft, Lightbulb, Thermometer, SlidersHorizontal, Zap } from 'lucide-react';
+import { ChevronLeft, Lightbulb, Thermometer } from 'lucide-react';
 import AdjustDevices from './AdjustDevice';
 import EnergySaver from './EnergySaver';
 
@@ -9,24 +9,37 @@ export default function DeviceControl() {
   const [activeTab, setActiveTab] = useState('devices');
   const navigate = useNavigate();
 
-  const devices = [
+  // Initial device list with states
+  const initialDevices = [
     {
+      id: 1,
       icon: <Lightbulb color="#3f0071" size={24} />,
       name: 'Living Room Light',
       status: 'Online',
       room: 'Living Room',
       type: 'Light',
-      action: 'Turn off',
+      isOn: true,
     },
     {
+      id: 2,
       icon: <Thermometer color="#3f0071" size={24} />,
       name: 'Kitchen Thermostat',
       status: 'Idle',
       room: 'Kitchen',
       type: 'Thermostat',
-      action: 'Adjust',
+      isOn: false,
     },
   ];
+
+  const [devices, setDevices] = useState(initialDevices);
+
+  // Toggle action button state (on/off)
+  const toggleDeviceState = (id) => {
+    const updatedDevices = devices.map((device) =>
+      device.id === id ? { ...device, isOn: !device.isOn } : device
+    );
+    setDevices(updatedDevices);
+  };
 
   return (
     <div className="device-control-container">
@@ -47,34 +60,46 @@ export default function DeviceControl() {
         <button className={activeTab === 'energy' ? 'active' : ''} onClick={() => setActiveTab('energy')}>Energy Saver</button>
       </div>
 
-      {/* Devices */}
+      {/* Devices Tab */}
       {activeTab === 'devices' && (
         <>
           <div className="device-grid">
-            {devices.map((device, idx) => (
-              <div key={idx} className="device-card">
+            {devices.map((device) => (
+              <div key={device.id} className="device-card">
                 <div>{device.icon}</div>
                 <h4>{device.name}</h4>
                 <p>Status: {device.status}</p>
                 <p>Room: {device.room}</p>
                 <p>Type: {device.type}</p>
                 <div className="buttons">
-                  <button className="action-btn">{device.action}</button>
-                  <button className="settings-btn">Settings</button>
+                  <button
+                    className="action-btn"
+                    onClick={() => toggleDeviceState(device.id)}
+                  >
+                    {device.isOn ? 'Turn off' : 'Turn on'}
+                  </button>
+                  <button
+                    className="settings-btn"
+                    onClick={() => navigate('/settings')}
+                  >
+                    Settings
+                  </button>
                 </div>
               </div>
             ))}
           </div>
 
+          {/* Add Device Button */}
           <div className="add-section">
             <h3>Add New Device</h3>
-            <button>Add device</button>
+            <button onClick={() => navigate('/add-device')}>Add device</button>
           </div>
         </>
       )}
 
+      {/* Other Tabs */}
       {activeTab === 'adjust' && <AdjustDevices />}
       {activeTab === 'energy' && <EnergySaver />}
     </div>
   );
-} 
+}

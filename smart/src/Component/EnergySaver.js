@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronLeft, Tv2, Lightbulb, Package } from 'lucide-react';
 import {
   BarChart,
@@ -13,6 +13,12 @@ import {
 import '../css/energysaver.css';
 
 const EnergySaver = () => {
+  const [isActive, setIsActive] = useState(true);
+
+  const handleToggle = () => {
+    setIsActive((prev) => !prev);
+  };
+
   const activeDevices = [
     {
       name: 'Living Room Light',
@@ -91,7 +97,9 @@ const EnergySaver = () => {
       <div className="info-block">
         <h3 className="section-subtitle">Energy Saver Mode</h3>
         <p className="section-description">
-          Energy Saver is now active. All compatible appliances are running in low-power mode.
+          {isActive
+            ? 'Energy Saver is now active. All compatible appliances are running in low-power mode.'
+            : 'Energy Saver is turned off. Devices are running in normal mode.'}
         </p>
       </div>
 
@@ -109,10 +117,11 @@ const EnergySaver = () => {
         </ResponsiveContainer>
       </div>
 
-      {/* Deactivate Button */}
+      {/* Toggle Button */}
       <div className="button-container">
-        <button className="deactivate-button">Deactivate</button>
-        
+        <button className="deactivate-button" onClick={handleToggle}>
+          {isActive ? 'Deactivate' : 'Activate'}
+        </button>
       </div>
     </div>
   );

@@ -1,8 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../css/adjustdevices.css';
 import { FaLightbulb, FaFan, FaTv, FaSnowflake } from 'react-icons/fa';
 
+const deviceConfig = [
+  {
+    category: 'Lighting',
+    devices: [
+      { name: 'Living Room', icon: <FaLightbulb />, secondaryOff: 'Dim', secondaryOn: 'Brighten' },
+      { name: 'Bed Room', icon: <FaLightbulb />, secondaryOff: 'Dim', secondaryOn: 'Brighten' },
+    ],
+  },
+  {
+    category: 'Fans',
+    devices: [
+      { name: 'Living Room Fan', icon: <FaFan />, secondaryOff: 'Slower', secondaryOn: 'Faster' },
+      { name: 'Bed Room Fan', icon: <FaFan />, secondaryOff: 'Slower', secondaryOn: 'Faster' },
+    ],
+  },
+  {
+    category: 'Other Devices',
+    devices: [
+      { name: 'Smart TV', icon: <FaTv />, secondaryOff: 'Power Save', secondaryOn: 'Normal Mode' },
+      { name: 'AC', icon: <FaSnowflake />, secondaryOff: 'Eco Boost', secondaryOn: 'Cool Mode' },
+    ],
+  },
+];
+
 const AdjustDevices = () => {
+  const [deviceStates, setDeviceStates] = useState({});
+
+  const toggleDevice = (deviceName) => {
+    setDeviceStates((prev) => ({
+      ...prev,
+      [deviceName]: {
+        ...prev[deviceName],
+        isOn: !prev[deviceName]?.isOn,
+      },
+    }));
+  };
+
+  const toggleSecondary = (deviceName) => {
+    setDeviceStates((prev) => ({
+      ...prev,
+      [deviceName]: {
+        ...prev[deviceName],
+        secondary: !prev[deviceName]?.secondary,
+      },
+    }));
+  };
+
   return (
     <div className="adjust-devices-container">
       <div className="breadcrumb">
@@ -13,68 +59,39 @@ const AdjustDevices = () => {
 
       <h1>Adjust Devices</h1>
 
-      {/* Lighting */}
-      <h2>Lighting</h2>
-      <div className="device-grid">
-        <div className="device-card">
-          <FaLightbulb className="device-icon" />
-          <div className="device-name">Living Room</div>
-          <div className="device-actions">
-            <button className="action-button secondary">Dim</button>
-            <button className="action-button">Turn off</button>
-          </div>
-        </div>
-        <div className="device-card">
-          <FaLightbulb className="device-icon" />
-          <div className="device-name">Bed Room</div>
-          <div className="device-actions">
-            <button className="action-button secondary">Dim</button>
-            <button className="action-button">Turn off</button>
-          </div>
-        </div>
-      </div>
+      {deviceConfig.map((group, groupIndex) => (
+        <div key={groupIndex}>
+          <h2>{group.category}</h2>
+          <div className="device-grid">
+            {group.devices.map((device, idx) => {
+              const deviceState = deviceStates[device.name] || {};
+              const isOn = deviceState.isOn ?? true;
+              const secondary = deviceState.secondary ?? false;
 
-      {/* Fans */}
-      <h2>Fans</h2>
-      <div className="device-grid">
-        <div className="device-card">
-          <FaFan className="device-icon" />
-          <div className="device-name">Living Room Fan</div>
-          <div className="device-actions">
-            <button className="action-button secondary">Slower</button>
-            <button className="action-button">Turn off</button>
+              return (
+                <div key={idx} className="device-card">
+                  {device.icon}
+                  <div className="device-name">{device.name}</div>
+                  <div className="device-actions">
+                    <button
+                      className="action-button secondary"
+                      onClick={() => toggleSecondary(device.name)}
+                    >
+                      {secondary ? device.secondaryOn : device.secondaryOff}
+                    </button>
+                    <button
+                      className="action-button"
+                      onClick={() => toggleDevice(device.name)}
+                    >
+                      {isOn ? 'Turn off' : 'Turn on'}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-        <div className="device-card">
-          <FaFan className="device-icon" />
-          <div className="device-name">Bed Room Fan</div>
-          <div className="device-actions">
-            <button className="action-button secondary">Slower</button>
-            <button className="action-button">Turn off</button>
-          </div>
-        </div>
-      </div>
-
-      {/* Other Devices */}
-      <h2>Other Devices</h2>
-      <div className="device-grid">
-        <div className="device-card">
-          <FaTv className="device-icon" />
-          <div className="device-name">Smart TV</div>
-          <div className="device-actions">
-            <button className="action-button secondary">Power Save</button>
-            <button className="action-button">Turn off</button>
-          </div>
-        </div>
-        <div className="device-card">
-          <FaSnowflake className="device-icon" />
-          <div className="device-name">AC</div>
-          <div className="device-actions">
-            <button className="action-button secondary">Eco Boost</button>
-            <button className="action-button">Turn off</button>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

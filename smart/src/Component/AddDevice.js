@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import { ChevronLeft } from 'lucide-react';
+import '../css/adddevice.css';
 
 export default function AddDevice() {
-  const [image, setImage] = useState('https://images.unsplash.com/photo-1587829741301-dc798b83add3');
+  const defaultImage = 'https://images.unsplash.com/photo-1587829741301-dc798b83add3';
+
+  const [image, setImage] = useState(defaultImage);
+  const [formData, setFormData] = useState({
+    deviceName: '',
+    deviceType: '',
+    room: '',
+    serialNumber: '',
+    notes: '',
+  });
 
   const handleImageUpload = () => {
     alert('Image upload triggered');
@@ -11,6 +21,25 @@ export default function AddDevice() {
   const handleSubmit = () => {
     alert('Device added successfully!');
   };
+
+  const handleCancel = () => {
+    setFormData({
+      deviceName: '',
+      deviceType: '',
+      room: '',
+      serialNumber: '',
+      notes: '',
+    });
+    setImage(defaultImage);
+  };
+
+  const fields = [
+    { label: 'Device Name', placeholder: 'e.g. Living Room Light', key: 'deviceName' },
+    { label: 'Device Type', placeholder: 'e.g.Light,AC, TV', key: 'deviceType' },
+    { label: 'Room', placeholder: 'e.g. Living Room', key: 'room' },
+    { label: 'Serial Number', placeholder: 'Enter device serial number', key: 'serialNumber' },
+    { label: 'Device Name', placeholder: 'Optional notes', key: 'notes' },
+  ];
 
   return (
     <div className="flex-1 bg-white p-8">
@@ -24,14 +53,6 @@ export default function AddDevice() {
           <span>{'>'}</span>
           <span className="font-semibold text-black">Add Device</span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="font-medium">Alex Morgan</span>
-          <img
-            src="https://randomuser.me/api/portraits/men/32.jpg"
-            alt="User"
-            className="w-10 h-10 rounded-full"
-          />
-        </div>
       </div>
 
       <h1 className="text-2xl font-bold mb-2">Add New Device</h1>
@@ -39,18 +60,14 @@ export default function AddDevice() {
 
       <form className="space-y-5 max-w-2xl">
         {/* Device Fields */}
-        {[
-          { label: 'Device Name', placeholder: 'e.g. Living Room Light' },
-          { label: 'Device Type', placeholder: 'e.g.Light,AC, TV' },
-          { label: 'Room', placeholder: 'e.g. Living Room' },
-          { label: 'Serial Number', placeholder: 'Enter device serial number' },
-          { label: 'Device Name', placeholder: 'Optional notes' }
-        ].map((field, i) => (
+        {fields.map((field, i) => (
           <div key={i}>
             <label className="block font-medium text-gray-800 mb-1">{field.label}</label>
             <input
               type="text"
               placeholder={field.placeholder}
+              value={formData[field.key]}
+              onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
               className="w-full p-3 rounded-lg bg-purple-100 focus:outline-none focus:ring-2 focus:ring-purple-400"
             />
           </div>
@@ -59,7 +76,7 @@ export default function AddDevice() {
         {/* Image Preview */}
         <div>
           <label className="block font-medium text-gray-800 mb-1">Device Image</label>
-          <img src={image} alt="Uploaded" className="w-64 rounded shadow-md" />
+          <img src={image} alt="Uploaded" className="device-preview-image" />
         </div>
 
         {/* Buttons */}
@@ -80,6 +97,7 @@ export default function AddDevice() {
           </button>
           <button
             type="button"
+            onClick={handleCancel}
             className="bg-purple-300 text-black px-4 py-2 rounded hover:bg-purple-400"
           >
             Cancel

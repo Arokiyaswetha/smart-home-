@@ -31,7 +31,7 @@ export default function SideBar() {
     { icon: <Bell />, label: 'Notification', to: '/notification' },
     { icon: <Shield />, label: 'Summary', to: '/summary' },
     { icon: <DoorOpen />, label: 'Room Management', to: '/room' },
-    { icon: <LogOut />, label: 'Sign Out', to: '/logout' },
+    { icon: <LogOut />, label: 'Sign Out', to: '/Signout' },
   ];
 
   return (

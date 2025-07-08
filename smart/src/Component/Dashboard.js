@@ -1,39 +1,18 @@
-// Dashboard.jsx
 import React from 'react';
 import '../css/dashboard.css';
 import {
   Home, Settings, LogOut, Bell, Zap, Shield, Lightbulb, Gauge, Camera, Grid2X2, Layers, DoorOpen
 } from 'lucide-react';
-import SideBar from './SideBar';
 
 export default function Dashboard() {
   return (
-   <>
-      {/* Sidebar */}
-      {/* <SideBar/> */}
-      {/* <aside className="sidebar dashboardSidebar" >
-        <h1><Lightbulb size={20} style={{ marginRight: '8px' }} /> SMART AURA</h1>
-        <ul>
-          <SidebarItem icon={<Home size={16} />} label="Dashboard" />
-          <SidebarItem icon={<Settings size={16} />} label="Device Control" />
-          <SidebarItem icon={<Gauge size={16} />} label="Settings" />
-          <SidebarItem icon={<Layers size={16} />} label="Logs" />
-          <SidebarItem icon={<Camera size={16} />} label="Surveillance" />
-          <SidebarItem icon={<Zap size={16} />} label="Energy Overview" />
-          <SidebarItem icon={<Grid2X2 size={16} />} label="Automation" />
-          <SidebarItem icon={<Bell size={16} />} label="Notification" />
-          <SidebarItem icon={<Shield size={16} />} label="Summary" />
-          <SidebarItem icon={<DoorOpen size={16} />} label="Room Management" />
-          <SidebarItem icon={<LogOut size={16} />} label="Sign Out" />
-        </ul>
-      </aside> */}
-
+    <>
       {/* Main content */}
-    <div className="dashboard-body">
-          <h2>Dashboard</h2>
-          <h3 className="welcome italic">Welcome back</h3>
-          <p className="subtitle">Your smart home overview</p>
-       
+      <div className="dashboard-body">
+        <h2>Dashboard</h2>
+        <h3 className="welcome italic">Welcome back</h3>
+        <p className="subtitle">Your smart home overview</p>
+
         {/* Overview Cards */}
         <div className="overview">
           <DashboardCard title="Devices" value="12 Connected" description="All devices are online" />
@@ -52,8 +31,16 @@ export default function Dashboard() {
             </tbody>
           </table>
         </div>
+
+        {/* Performance Bar Section */}
+        <div className="performance">
+          <h3>Performance Overview</h3>
+          <PerformanceMetric label="Automation Success Rate" value={90} />
+          <PerformanceMetric label="Device Health" value={75} />
+          <PerformanceMetric label="Energy Efficiency" value={60} />
         </div>
-   </>
+      </div>
+    </>
   );
 }
 
@@ -85,5 +72,22 @@ function ActivityRow({ device, status, time }) {
       <td>{status}</td>
       <td>{time}</td>
     </tr>
+  );
+}
+
+function PerformanceMetric({ label, value }) {
+  return (
+    <div className="performance-bar">
+      <div className="performance-label">
+        <span>{label}</span>
+        <span>{value}%</span>
+      </div>
+      <div className="bar-wrapper">
+        <div
+          className="bar-fill"
+          style={{ width: `${value}%`, backgroundColor: value > 80 ? '#16a34a' : value > 60 ? '#facc15' : '#ef4444' }}
+        />
+      </div>
+    </div>
   );
 }

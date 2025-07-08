@@ -102,17 +102,22 @@
   display: flex;
   align-items: center;
   font-size: 14px;
-  gap: 4px;
-  margin-bottom: 1rem;
+  gap: 4px;             /* Less gap to reduce spacing between items */
+  margin-bottom: 16px;  /* Slightly less bottom margin for compactness */
+  color: #6b7280;
+  font-weight: 400;
+  line-height: 1.2;     /* Tight vertical alignment */
+}
+
+.breadcrumb span {
+  display: flex;
+  align-items: center;
 }
 
 .breadcrumb-link {
   color: #3f0071;
   font-weight: 500;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
   transition: color 0.2s;
 }
 
@@ -122,6 +127,6 @@
 }
 
 .breadcrumb-active {
-  font-weight: bold;
-  color: #333;
+  color: #000;
+  font-weight: 600;
 }

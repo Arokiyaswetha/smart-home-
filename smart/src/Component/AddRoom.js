@@ -22,6 +22,26 @@ export default function AddRoom() {
     }
   };
 
+  const handleSave = () => {
+    if (!roomName.trim()) {
+      alert('Please enter a room name.');
+      return;
+    }
+
+    const newRoom = {
+      name: roomName,
+      devices: devicesList.filter((device) => assignedDevices.includes(device.id)),
+    };
+
+    // Save to localStorage (or you can send it to backend via API)
+    const existingRooms = JSON.parse(localStorage.getItem('rooms')) || [];
+    existingRooms.push(newRoom);
+    localStorage.setItem('rooms', JSON.stringify(existingRooms));
+
+    alert('Room saved successfully!');
+    navigate('/room'); // Navigate to room management or list
+  };
+
   return (
     <div className="add-room-container">
       {/* Breadcrumb Navigation */}
@@ -68,7 +88,7 @@ export default function AddRoom() {
 
       {/* Action Buttons */}
       <div className="action-buttons">
-        <button className="save-btn">Save Room</button>
+        <button className="save-btn" onClick={handleSave}>Save Room</button>
         <button className="cancel-btn" onClick={() => navigate('/room')}>Cancel</button>
       </div>
     </div>
