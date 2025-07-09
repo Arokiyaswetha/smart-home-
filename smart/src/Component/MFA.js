@@ -1,4 +1,3 @@
-// src/Component/VerifyMFA.jsx
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../css/mfa.css';
@@ -10,8 +9,8 @@ export default function VerifyMFA() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('MFA Code:', code);
-    // Add logic to validate MFA code here
-    navigate('/'); // Navigate to dashboard or secure page after verification
+    // TODO: Add validation logic for code if needed
+    navigate('/'); // ✅ Navigate to dashboard after verification
   };
 
   return (
@@ -33,7 +32,7 @@ export default function VerifyMFA() {
         <button type="submit" className="verify-btn">Verify</button>
 
         <p className="support-text">
-          Having Double?{' '}
+          Having Trouble?{' '}
           <Link to="/support" className="support-link">Contact Support</Link>
         </p>
       </form>

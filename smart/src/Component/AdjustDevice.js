@@ -51,11 +51,7 @@ const AdjustDevices = () => {
 
   return (
     <div className="adjust-devices-container">
-      <div className="breadcrumb">
-        <span>Dashboard</span> &gt;
-        <span> Device control</span> &gt;
-        <span className="font-semibold"> Adjust devices</span>
-      </div>
+      
 
       <h1>Adjust Devices</h1>
 
