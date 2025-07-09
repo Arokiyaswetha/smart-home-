@@ -13,7 +13,7 @@ export default function Layout() {
   const location = useLocation();
 
   // Define paths that should NOT show Header/Sidebar
-  const noLayoutPaths = ['/Home', '/signin','/signup','/forgot-password','/verify-mfa','/support','/email-support','/faq-support'];
+  const noLayoutPaths = ['/home', '/signin','/signup','/forgot-password','/verify-mfa','/support','/email-support','/faq-support'];
 
   // Check if current path should hide layout
   const hideLayout = noLayoutPaths.includes(location.pathname);
