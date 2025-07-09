@@ -19,7 +19,14 @@ import DeviceUsage from './Component/DeviceUsage';
 import Rule from './Component/Rule';
 import DeviceSchedules from './Component/DeviceSchedules';
 import Signout from './Component/Signout';
-import { Home } from 'lucide-react';
+import HomePage from './Component/Home';
+import SignIn from './Component/SignIn';
+import SignUp from './Component/Signup';
+import ForgotPassword from './Component/Forgot';
+import VerifyMFA from './Component/MFA';
+import SupportPage from './Component/Contact';
+import EmailSupport from './Component/Email';
+import FAQ from './Component/Faq';
 // ...add other pages here
 
 export default function App() {
@@ -44,7 +51,14 @@ export default function App() {
       <Route path="/create-rule" element={<Rule />} />
       <Route path="/device-schedules" element={<DeviceSchedules />} />
       <Route path="/signout" element={<Signout />} />
-      <Route path="/home" element={<Home />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/verify-mfa" element={<VerifyMFA />} />
+      <Route path="/support" element={<SupportPage />} />
+      <Route path="/email-support" element={<EmailSupport />} />
+         <Route path="/faq-support" element={<FAQ />} />
 
       Add more routes like /automation, /notification etc.
       </Route>

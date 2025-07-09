@@ -1,16 +1,42 @@
-// MFA Verification logic
-document.getElementById('verifyBtn').addEventListener('click', function () {
-  const mfaCode = document.getElementById('mfaCode').value.trim();
+// src/Component/VerifyMFA.jsx
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import '../css/mfa.css';
 
-  if (!/^\d{6}$/.test(mfaCode)) {
-    alert('Please enter a valid 6-digit code.');
-    return;
-  }
+export default function VerifyMFA() {
+  const [code, setCode] = useState('');
+  const navigate = useNavigate();
 
-  // Simulate verification
-  console.log('Verifying MFA code:', mfaCode);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('MFA Code:', code);
+    // Add logic to validate MFA code here
+    navigate('/'); // Navigate to dashboard or secure page after verification
+  };
 
-  // Example success
-  alert('MFA verified successfully!');
-  // Redirect to dashboard or next step
-});
+  return (
+    <div className="verify-mfa-container">
+      <form className="verify-mfa-card" onSubmit={handleSubmit}>
+        <h2>Multi-factor Authentication</h2>
+        <p className="instruction">Enter the 6-digit code sent to your device</p>
+
+        <label>MFA-code</label>
+        <input
+          type="text"
+          placeholder="Enter the Code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          maxLength={6}
+          required
+        />
+
+        <button type="submit" className="verify-btn">Verify</button>
+
+        <p className="support-text">
+          Having Double?{' '}
+          <Link to="/support" className="support-link">Contact Support</Link>
+        </p>
+      </form>
+    </div>
+  );
+}

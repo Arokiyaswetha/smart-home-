@@ -1,30 +1,67 @@
-// Handle Sign In
-function signIn() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value;
-  const role = document.getElementById("role").value;
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import '../css/signin.css';
 
-  if (!username || !password || !role) {
-    alert("⚠️ Please fill in all fields.");
-    return;
-  }
+export default function SignIn() {
+  const [form, setForm] = useState({ username: '', password: '', role: '' });
+  const navigate = useNavigate();
 
-  // Simulated user database (replace with API call in real app)
-  const users = [
-    { username: "admin@smartaura.com", password: "admin123", role: "Admin" },
-    { username: "homeowner@smartaura.com", password: "home123", role: "Homeowner" },
-    { username: "guest@smartaura.com", password: "guest123", role: "Guest" }
-  ];
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
-  const matchedUser = users.find(
-    user => user.username === username && user.password === password && user.role === role
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Submitted:', form);
+    navigate('/verify-mfa');
+  };
+
+  return (
+    <div className="signin-container">
+      <form className="signin-card" onSubmit={handleSubmit}>
+        <h2>Welcome to Smart Aura</h2>
+
+        <label>Username or Email</label>
+        <input
+          type="text"
+          name="username"
+          placeholder="Enter your username or email"
+          value={form.username}
+          onChange={handleChange}
+          required
+        />
+
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter the Password"
+          value={form.password}
+          onChange={handleChange}
+          required
+        />
+
+        <label>Role</label>
+        <select name="role" value={form.role} onChange={handleChange} required>
+          <option value="">Select the role</option>
+          <option value="admin">Admin</option>
+          <option value="homeowner">Homeowner</option>
+          <option value="guest">Guest</option>
+        </select>
+
+        <button type="submit" className="signin-btn">Sign In</button>
+
+        <div className="signin-links">
+          <Link to="/forgot-password" className="forgot-link">Forgot Password ?</Link>
+          <Link to="/support" className="help-link">Help</Link> {/* Made Help a working route */}
+        </div>
+
+        <p className="signup-link">
+          Don’t have an account ?{' '}
+          <Link to="/signup" className="signup-anchor">Sign Up</Link>
+        </p>
+      </form>
+    </div>
   );
-
-  if (matchedUser) {
-    alert(`✅ Welcome back, ${role}!`);
-    // Redirect to dashboard (example)
-    // window.location.href = "/dashboard.html";
-  } else {
-    alert("❌ Invalid credentials or role. Please try again.");
-  }
 }
